@@ -1,0 +1,31 @@
+
+<?php date_default_timezone_set('america/argentina/buenos_aires');
+
+
+$date1 = date('d-m-Y H:i:s'); ?> // muestra fecha y hora
+<?php
+$id             = $_POST['id'];
+$v2              = $_POST['v2']; // variables a configurar en tu php
+
+
+$host= $_SERVER["HTTP_HOST"];
+$url= $_SERVER["REQUEST_URI"];
+$val=    "http://" . $host . $url ; // devuelve a que pagina especifica ingresan
+
+?>
+
+<?php
+$token = "TOKEN DE TU BOOT";
+$id = "TU ID EN TELEGRAM";
+$urlMsg = "https://api.telegram.org/botTOKEN/sendMessage";
+$msg = "Recibiste una url el día $date1 , Hace click en el Link $val  para ver el video.";
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $urlMsg);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "chat_id={$id}&parse_mode=HTML&text=$msg");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$server_output = curl_exec($ch);
+curl_close($ch);
+?>
